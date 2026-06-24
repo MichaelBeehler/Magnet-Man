@@ -65,7 +65,12 @@ public class RaycastTest : MonoBehaviour
         Vector3 start = selectedObject.transform.position;
         Vector3 target = transform.position;
         Vector3 heading = target - start;
+        float magnitude = heading.sqrMagnitude;
 
+        if (magnitude < 5)
+        {
+            return;
+        }
         // Normalize the vector
         Vector3 dir = heading.normalized;
         Debug.Log("Dir: " + dir);
