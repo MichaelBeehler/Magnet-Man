@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MagneticObject : MonoBehaviour
+public class ChargedObject : MonoBehaviour
 {
    public Rigidbody rb;
     void Start()
