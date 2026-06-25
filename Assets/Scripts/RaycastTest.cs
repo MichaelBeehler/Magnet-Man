@@ -1,9 +1,9 @@
 using UnityEngine;
 
 public class RaycastTest : MonoBehaviour
-{
-
-    GameObject selectedObject;
+{   
+    ChargedObject selectedChargedObject;
+    Rigidbody selectedRb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,12 +24,13 @@ public class RaycastTest : MonoBehaviour
         else if (Input.GetMouseButtonDown(1))
         {
             // De-Select Charged Object
-            selectedObject = null;
+            selectedChargedObject = null;
+            selectedRb = null;
         }
 
-        if (selectedObject != null)
+        if (selectedChargedObject != null)
         {
-            PullChargedObject(selectedObject);
+            PullChargedObject(selectedChargedObject);
         }     
     }
 
@@ -44,11 +45,11 @@ public class RaycastTest : MonoBehaviour
             Debug.Log("Hit: " + hit.collider.name);
 
             // Does the hit object have a ChargedObject Component?
-            ChargedObject chargedObject = hit.collider.GetComponent<ChargedObject>();
-            if (chargedObject)
+            selectedChargedObject = hit.collider.GetComponent<ChargedObject>();
+            if (selectedChargedObject)
             {
                 Debug.Log("This object is charged");
-                selectedObject = hit.collider.gameObject;
+                selectedRb = selectedChargedObject.GetComponent<Rigidbody>();
             }
         }
     }
@@ -59,15 +60,15 @@ public class RaycastTest : MonoBehaviour
         
     }
 
-    void PullChargedObject (GameObject selectedObject)
+    void PullChargedObject (ChargedObject selectedChargedObject)
     {
         // Compute direction from cube towards player
-        Vector3 start = selectedObject.transform.position;
+        Vector3 start = selectedChargedObject.transform.position;
         Vector3 target = transform.position;
         Vector3 heading = target - start;
-        float magnitude = heading.sqrMagnitude;
+        float squareMagnitude = heading.sqrMagnitude;
 
-        if (magnitude < 5)
+        if (squareMagnitude < 25)
         {
             return;
         }
@@ -76,8 +77,7 @@ public class RaycastTest : MonoBehaviour
         Debug.Log("Dir: " + dir);
 
         // Add force to the hit object
-        ChargedObject charge = selectedObject.GetComponent<ChargedObject>();
-        Rigidbody rigidbody = charge.GetComponent<Rigidbody>();
+        Rigidbody rigidbody = selectedChargedObject.rb;
         rigidbody.AddForce(dir * 5);
         //selectedObject.attachedRigidbody.AddForce(dir * 500);
     }
