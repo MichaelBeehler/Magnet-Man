@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RaycastTest : MonoBehaviour
+public class PolarityGun : MonoBehaviour
 {   
     ChargedObject selectedChargedObject;
     Rigidbody selectedRb;
@@ -30,7 +30,7 @@ public class RaycastTest : MonoBehaviour
 
         if (selectedChargedObject != null)
         {
-            PullChargedObject(selectedChargedObject);
+            ApplyElectricForce(selectedChargedObject);
         }     
     }
 
@@ -60,7 +60,7 @@ public class RaycastTest : MonoBehaviour
         
     }
 
-    void PullChargedObject (ChargedObject selectedChargedObject)
+    void ApplyElectricForce (ChargedObject selectedChargedObject)
     {
         // Compute direction from cube towards player
         Vector3 start = selectedChargedObject.transform.position;
