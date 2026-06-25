@@ -17,7 +17,7 @@ public class RaycastTest : MonoBehaviour
         // If left mouse is clicked
         if (Input.GetMouseButtonDown(0))
         {
-            ProcessMouse(0);
+            ProcessMouse();
         }
 
         // Right Mouse Click
@@ -34,7 +34,7 @@ public class RaycastTest : MonoBehaviour
         }     
     }
 
-    void ProcessMouse (int buttonPressed)
+    void ProcessMouse ()
     {
         // Create a RaycastHit object, which will contain info on clicked objects
         RaycastHit hit;
