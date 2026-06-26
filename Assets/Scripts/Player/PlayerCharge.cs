@@ -7,6 +7,8 @@ public class PlayerCharge : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Players should start as neutral, to avoid weird/unintended pushing and pulling
+        playerCharge = ChargeType.Neutral;
     }
 
     // Update is called once per frame
@@ -36,4 +38,11 @@ public class PlayerCharge : MonoBehaviour
     {
         
     }
+
+    /*void SetPlayerColor ()
+    {
+        Renderer playerRenderer = GetComponent<Renderer>();
+
+        playerRenderer.material.color = Color.red;
+    }*/
 }
