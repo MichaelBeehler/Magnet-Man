@@ -68,7 +68,8 @@ public class PolarityGun : MonoBehaviour
         Vector3 heading = target - start;
         float squareMagnitude = heading.sqrMagnitude;
 
-        if (squareMagnitude < 25)
+        // If within certain range, don't apply force
+        if (squareMagnitude < 4)
         {
             return;
         }
@@ -78,7 +79,8 @@ public class PolarityGun : MonoBehaviour
 
         // Add force to the hit object
         Rigidbody rigidbody = selectedChargedObject.rb;
-        rigidbody.AddForce(dir * 5);
+        float electricForceMagnitude = ElectricForceCalculator.CalculatePointChargeForceSqDist(1, 1, squareMagnitude);
+        rigidbody.AddForce(5 * dir * electricForceMagnitude);
         //selectedObject.attachedRigidbody.AddForce(dir * 500);
     }
 }
