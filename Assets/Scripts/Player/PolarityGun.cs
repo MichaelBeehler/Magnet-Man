@@ -62,11 +62,8 @@ public class PolarityGun : MonoBehaviour
 
     void ApplyElectricForce (ChargedObject selectedChargedObject)
     {
-        // Compute direction from cube towards player
-        Vector3 start = selectedChargedObject.transform.position;
-        Vector3 target = transform.position;
-        Vector3 heading = target - start;
-        float squareMagnitude = heading.sqrMagnitude;
+        // Compute direction from selected object towards player
+        ComputeDirection(selectedChargedObject, out Vector3 heading, out float squareMagnitude);
 
         // If within certain range, don't apply force
         if (squareMagnitude < 4)
@@ -75,12 +72,50 @@ public class PolarityGun : MonoBehaviour
         }
         // Normalize the vector
         Vector3 dir = heading.normalized;
-        Debug.Log("Dir: " + dir);
+        
+        //Debug.Log("Velocity: " + selectedChargedObject.GetComponent<Rigidbody>().linearVelocity.magnitude);
 
         // Add force to the hit object
-        Rigidbody rigidbody = selectedChargedObject.rb;
+        /*Rigidbody rigidbody = selectedChargedObject.rb;
         float electricForceMagnitude = ElectricForceCalculator.CalculatePointChargeForceSqDist(1, 1, squareMagnitude);
         rigidbody.AddForce(5 * dir * electricForceMagnitude);
-        //selectedObject.attachedRigidbody.AddForce(dir * 500);
+        //selectedObject.attachedRigidbody.AddForce(dir * 500);*/
+        ApplyForce(dir, squareMagnitude, selectedChargedObject);
+    }
+
+    void ComputeDirection (ChargedObject obj, out Vector3 heading, out float squareMagnitude)
+    {
+        Vector3 start = obj.transform.position;
+        Vector3 target = transform.position;
+
+        heading = target - start;
+        squareMagnitude = heading.sqrMagnitude;
+    }
+
+    void ApplyForce (Vector3 normalizedDirection, float sqrmag, ChargedObject selectedChargedObject)
+    {
+
+        Rigidbody rigidbody = selectedChargedObject.rb;
+
+        float electricForceMagnitude = ElectricForceCalculator.CalculatePointChargeForceSqDist(1, 1, sqrmag);
+
+        Debug.Log(selectedChargedObject);
+        Debug.Log(selectedChargedObject.rb);
+
+        PlayerCharge pc = GetComponentInParent<PlayerCharge>();
+        Debug.Log(pc);
+
+        // If object and player are not neutral, when we will be able to attract or repel
+        if (selectedChargedObject.charge != ChargeType.Neutral && GetComponentInParent<PlayerCharge>().playerCharge != ChargeType.Neutral)
+        {
+            if (selectedChargedObject.charge != GetComponentInParent<PlayerCharge>().playerCharge)
+            {
+                rigidbody.AddForce(5 * normalizedDirection * electricForceMagnitude);
+            }
+            else
+            {
+                rigidbody.AddForce(5 * normalizedDirection * -electricForceMagnitude);
+            }
+        }
     }
 }
