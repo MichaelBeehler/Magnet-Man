@@ -17,18 +17,21 @@ public class PlayerCharge : MonoBehaviour
         if (Input.GetKeyDown("1"))
         {
             playerCharge = ChargeType.Positive;
+            SetPlayerColor();
             Debug.Log("Player is now positive");
         }
 
         else if (Input.GetKeyDown("2"))
         {
             playerCharge = ChargeType.Negative;
+            SetPlayerColor();
             Debug.Log("Player is now negative");
         }
 
         else if (Input.GetKeyDown("3"))
         {
             playerCharge = ChargeType.Neutral;
+            SetPlayerColor();
             Debug.Log("Player is now neutral");
         }
     }
@@ -39,10 +42,23 @@ public class PlayerCharge : MonoBehaviour
         
     }
 
-    /*void SetPlayerColor ()
+    void SetPlayerColor ()
     {
-        Renderer playerRenderer = GetComponent<Renderer>();
+        Renderer playerRenderer = GetComponentInChildren<Renderer>();
 
-        playerRenderer.material.color = Color.red;
-    }*/
+        if (playerCharge == ChargeType.Positive)
+        {
+            playerRenderer.material.color = Color.red;
+        }
+
+        else if (playerCharge == ChargeType.Negative)
+        {
+            playerRenderer.material.color = Color.blue;
+        }
+
+        else
+        {
+            playerRenderer.material.color = Color.gold;
+        }
+    }
 }

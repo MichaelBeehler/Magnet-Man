@@ -8,7 +8,7 @@ public class PolarityGun : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Rigidbody playerRb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -94,10 +94,10 @@ public class PolarityGun : MonoBehaviour
 
     void ApplyForce (Vector3 normalizedDirection, float sqrmag, ChargedObject selectedChargedObject)
     {
-
+        // Get chargedObject's rigidbody
         Rigidbody rigidbody = selectedChargedObject.rb;
 
-        float electricForceMagnitude = ElectricForceCalculator.CalculatePointChargeForceSqDist(1, 1, sqrmag);
+        float electricForceMagnitude = ElectricForceCalculator.CalculatePointChargeForceSqDist(10, 10, sqrmag);
 
         Debug.Log(selectedChargedObject);
         Debug.Log(selectedChargedObject.rb);
@@ -111,6 +111,7 @@ public class PolarityGun : MonoBehaviour
             if (selectedChargedObject.charge != GetComponentInParent<PlayerCharge>().playerCharge)
             {
                 rigidbody.AddForce(5 * normalizedDirection * electricForceMagnitude);
+                
             }
             else
             {
