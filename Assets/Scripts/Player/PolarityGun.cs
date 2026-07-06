@@ -97,7 +97,7 @@ public class PolarityGun : MonoBehaviour
         // Get chargedObject's rigidbody
         Rigidbody rigidbody = selectedChargedObject.rb;
 
-        float electricForceMagnitude = ElectricForceCalculator.CalculatePointChargeForceSqDist(10, 10, sqrmag);
+        float electricForceMagnitude = PhysicsEquations.CalculatePointChargeForceSqDist(10, 10, sqrmag);
 
         Debug.Log(selectedChargedObject);
         Debug.Log(selectedChargedObject.rb);

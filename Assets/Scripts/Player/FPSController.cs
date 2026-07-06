@@ -9,6 +9,7 @@ public class FPSController : MonoBehaviour
     public float speed = 5.0f;
     public float gravity = -9.81f;
     public float jumpHeight = 1.5f;
+    public float playerMass = 50.0f;
 
     [Header("Look")]
     public float mouseSensitivity = 2.0f;
@@ -35,6 +36,7 @@ public class FPSController : MonoBehaviour
     {
         HandleLook();
         HandleMovement();
+        Debug.Log(activeField);
     }
 
     void HandleLook ()
@@ -68,6 +70,13 @@ public class FPSController : MonoBehaviour
 
         // move direction relative to direction player is facing
         Vector3 move = transform.right * x + transform.forward * z;
+
+        // If the player is experiencing an electric force, find the vector
+        if (activeField != null)
+        {
+            Vector3 forceVector = CalculateElectricForceVector();
+            move += forceVector; //// NEED TO ACCOUNT FOR ACCELERATION!!!!!
+        }
         
         controller.Move (move * speed * Time.deltaTime);
 
@@ -79,6 +88,22 @@ public class FPSController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move (velocity * Time.deltaTime);
+    }
+
+    // Returns a Vector3 describing the net electrical force experienced by the player
+    Vector3 CalculateElectricForceVector ()
+    {
+        Vector3 objPos = activeField.transform.position;
+        Vector3 playerPos = transform.position;
+        Vector3 heading = objPos - playerPos;
+        Vector3 normalizedHeading = heading.normalized;
+
+        float squareMagnitude = heading.sqrMagnitude;
+
+        float force = PhysicsEquations.CalculatePointChargeForceSqDist(10,10, squareMagnitude);
+
+        return normalizedHeading * force;
+
     }
 
 }

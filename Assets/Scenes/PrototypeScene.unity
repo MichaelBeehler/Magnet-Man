@@ -156,6 +156,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1.5
   mouseSensitivity: 2
+  activeField: {fileID: 0}
 --- !u!143 &32031569
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1155,7 +1156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChargedObject
   rb: {fileID: 0}
-  charge: 0
+  charge: 1
   chargeStrength: 0
   canMove: 0
 --- !u!1 &1559333300
