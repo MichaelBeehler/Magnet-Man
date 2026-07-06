@@ -111,7 +111,6 @@ public class PolarityGun : MonoBehaviour
             if (selectedChargedObject.charge != GetComponentInParent<PlayerCharge>().playerCharge)
             {
                 rigidbody.AddForce(5 * normalizedDirection * electricForceMagnitude);
-                
             }
             else
             {

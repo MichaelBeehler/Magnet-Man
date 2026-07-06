@@ -44,6 +44,5 @@ public class ChargedObject : MonoBehaviour
         {
             renderer.material.color = Color.blue;
         }
-
     }
 }
