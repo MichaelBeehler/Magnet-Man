@@ -1,6 +1,3 @@
-using System;
-using System.IO.Compression;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FPSController : MonoBehaviour
@@ -20,6 +17,8 @@ public class FPSController : MonoBehaviour
     private float xRotation;
 
     private Vector3 velocity;
+
+    public ChargedObject activeField;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
