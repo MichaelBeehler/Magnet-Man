@@ -75,7 +75,20 @@ public class FPSController : MonoBehaviour
         if (activeField != null)
         {
             Vector3 forceVector = CalculateElectricForceVector();
-            move += forceVector; //// NEED TO ACCOUNT FOR ACCELERATION!!!!!
+
+            // If object and player are not neutral, when we will be able to attract or repel
+            /////////////////// WE NEED TO ACCOUNT FOR ACCELERATION
+            if (activeField.charge != ChargeType.Neutral && GetComponentInParent<PlayerCharge>().playerCharge != ChargeType.Neutral)
+            {
+                if (activeField.charge != GetComponentInParent<PlayerCharge>().playerCharge)
+                {
+                    move += forceVector;
+                }
+                else
+                {
+                    move-= forceVector;
+                }
+            }
         }
         
         controller.Move (move * speed * Time.deltaTime);
@@ -103,7 +116,6 @@ public class FPSController : MonoBehaviour
         float force = PhysicsEquations.CalculatePointChargeForceSqDist(10,10, squareMagnitude);
 
         return normalizedHeading * force;
-
     }
 
 }
