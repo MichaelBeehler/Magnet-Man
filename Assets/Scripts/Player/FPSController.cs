@@ -21,10 +21,13 @@ public class FPSController : MonoBehaviour
 
     public ChargedObject activeField;
 
+    PlayerCharge playerChargeComponent;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerChargeComponent = GetComponentInParent<PlayerCharge>();
 
         // lock the mouse to the center of the screen
         Cursor.lockState = CursorLockMode.Locked;
@@ -45,7 +48,7 @@ public class FPSController : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
 
-        //left/right rotates player body
+        // left/right rotates player body
         transform.Rotate(Vector3.up * mouseX);
 
         //up/down only rotates camera
@@ -78,9 +81,9 @@ public class FPSController : MonoBehaviour
 
             // If object and player are not neutral, when we will be able to attract or repel
             /////////////////// WE NEED TO ACCOUNT FOR ACCELERATION
-            if (activeField.charge != ChargeType.Neutral && GetComponentInParent<PlayerCharge>().playerCharge != ChargeType.Neutral)
+            if (activeField.charge != ChargeType.Neutral && playerChargeComponent.playerCharge != ChargeType.Neutral)
             {
-                if (activeField.charge != GetComponentInParent<PlayerCharge>().playerCharge)
+                if (activeField.charge != playerChargeComponent.playerCharge)
                 {
                     move += forceVector;
                 }
