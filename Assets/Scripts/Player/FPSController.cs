@@ -18,6 +18,7 @@ public class FPSController : MonoBehaviour
     private float xRotation;
 
     private Vector3 velocity;
+    private Vector3 electricVelocity;
 
     public ChargedObject activeField;
 
@@ -79,17 +80,21 @@ public class FPSController : MonoBehaviour
         {
             Vector3 forceVector = CalculateElectricForceVector();
 
+            Vector3 acceleration = PhysicsEquations.CalculateAcceleration(forceVector, playerMass);
+
             // If object and player are not neutral, when we will be able to attract or repel
-            /////////////////// WE NEED TO ACCOUNT FOR ACCELERATION
             if (activeField.charge != ChargeType.Neutral && playerChargeComponent.playerCharge != ChargeType.Neutral)
             {
                 if (activeField.charge != playerChargeComponent.playerCharge)
                 {
-                    move += forceVector;
+                    electricVelocity += acceleration * Time.deltaTime;
+                    Debug.Log(electricVelocity);
                 }
                 else
                 {
-                    move-= forceVector;
+                    //move-= forceVector;
+                    electricVelocity -= acceleration * Time.deltaTime;
+                    Debug.Log(electricVelocity);
                 }
             }
         }
@@ -103,7 +108,8 @@ public class FPSController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
-        controller.Move (velocity * Time.deltaTime);
+        controller.Move ((velocity + electricVelocity )  * Time.deltaTime);
+        
     }
 
     // Returns a Vector3 describing the net electrical force experienced by the player
@@ -116,7 +122,7 @@ public class FPSController : MonoBehaviour
 
         float squareMagnitude = heading.sqrMagnitude;
 
-        float force = PhysicsEquations.CalculatePointChargeForceSqDist(10,10, squareMagnitude);
+        float force = PhysicsEquations.CalculatePointChargeForceSqDist(100,100, squareMagnitude);
 
         return normalizedHeading * force;
     }
