@@ -78,26 +78,43 @@ public class FPSController : MonoBehaviour
         // If the player is experiencing an electric force, find the vector
         if (activeField != null)
         {
-            UniformField field = activeField.GetComponentInParent<UniformField>();
-            //Vector3 fieldVector = field.GetElectricField();
+            Vector3 E = activeField.GetElectricField(transform.position);
+            float q = 0;
 
-            //Vector3 acceleration = PhysicsEquations.CalculateAcceleration(forceVector, playerMass);
+            switch(playerChargeComponent.playerCharge)
+            {
+                case ChargeType.Positive:
+                    q = 1;
+                    break;
+                
+                case ChargeType.Negative:
+                    q = -1;
+                    break;
+
+                default:
+                    break;
+            }
+
+            Vector3 acceleration = PhysicsEquations.CalculateAcceleration(q * E, playerMass);
+            Debug.Log("acc: " + acceleration);
 
             // If object and player are not neutral, when we will be able to attract or repel
-            if (activeField.charge != ChargeType.Neutral && playerChargeComponent.playerCharge != ChargeType.Neutral)
+            /*if (activeField.charge != ChargeType.Neutral && playerChargeComponent.playerCharge != ChargeType.Neutral)
             {
                 if (activeField.charge != playerChargeComponent.playerCharge)
                 {
-                    //electricVelocity += acceleration * Time.deltaTime;
+                    electricVelocity += acceleration * Time.deltaTime;
                     Debug.Log(electricVelocity);
                 }
                 else
                 {
                     //move-= forceVector;
-                    //electricVelocity -= acceleration * Time.deltaTime;
+                    electricVelocity -= acceleration * Time.deltaTime;
                     Debug.Log(electricVelocity);
                 }
-            }
+            }*/
+
+            electricVelocity += acceleration * Time.deltaTime;
         }
         
         controller.Move (move * speed * Time.deltaTime);
@@ -110,6 +127,6 @@ public class FPSController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move ((velocity + electricVelocity )  * Time.deltaTime);
-        electricVelocity *= 0.98f;
+        //electricVelocity *= 0.98f;
     }
 }

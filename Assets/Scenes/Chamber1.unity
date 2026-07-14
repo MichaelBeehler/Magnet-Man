@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b03987da6450c4c9314a0c09b05969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfinitePlateField
-  charge: 0
-  fieldStrength: 0
+  charge: 2
+  fieldStrength: 1000
   fieldDirection: {x: 0, y: 0, z: 0}
 --- !u!1001 &1623897599
 PrefabInstance:
@@ -303,6 +303,18 @@ PrefabInstance:
     - target: {fileID: 2217823213362389861, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: m_Name
       value: ChargedSurface
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810009787365497854, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810009787365497854, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810009787365497854, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_Size.z
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
