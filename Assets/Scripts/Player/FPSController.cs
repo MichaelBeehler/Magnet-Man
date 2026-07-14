@@ -20,7 +20,7 @@ public class FPSController : MonoBehaviour
     private Vector3 velocity;
     private Vector3 electricVelocity;
 
-    public ChargedObject activeField;
+    public ElectricField activeField;
 
     PlayerCharge playerChargeComponent;
 
@@ -78,22 +78,23 @@ public class FPSController : MonoBehaviour
         // If the player is experiencing an electric force, find the vector
         if (activeField != null)
         {
-            Vector3 forceVector = CalculateElectricForceVector();
+            UniformField field = activeField.GetComponentInParent<UniformField>();
+            //Vector3 fieldVector = field.GetElectricField();
 
-            Vector3 acceleration = PhysicsEquations.CalculateAcceleration(forceVector, playerMass);
+            //Vector3 acceleration = PhysicsEquations.CalculateAcceleration(forceVector, playerMass);
 
             // If object and player are not neutral, when we will be able to attract or repel
             if (activeField.charge != ChargeType.Neutral && playerChargeComponent.playerCharge != ChargeType.Neutral)
             {
                 if (activeField.charge != playerChargeComponent.playerCharge)
                 {
-                    electricVelocity += acceleration * Time.deltaTime;
+                    //electricVelocity += acceleration * Time.deltaTime;
                     Debug.Log(electricVelocity);
                 }
                 else
                 {
                     //move-= forceVector;
-                    electricVelocity -= acceleration * Time.deltaTime;
+                    //electricVelocity -= acceleration * Time.deltaTime;
                     Debug.Log(electricVelocity);
                 }
             }
@@ -109,22 +110,6 @@ public class FPSController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move ((velocity + electricVelocity )  * Time.deltaTime);
-        
+        electricVelocity *= 0.98f;
     }
-
-    // Returns a Vector3 describing the net electrical force experienced by the player
-    Vector3 CalculateElectricForceVector ()
-    {
-        Vector3 objPos = activeField.transform.position;
-        Vector3 playerPos = transform.position;
-        Vector3 heading = objPos - playerPos;
-        Vector3 normalizedHeading = heading.normalized;
-
-        float squareMagnitude = heading.sqrMagnitude;
-
-        float force = PhysicsEquations.CalculatePointChargeForceSqDist(100,100, squareMagnitude);
-
-        return normalizedHeading * force;
-    }
-
 }

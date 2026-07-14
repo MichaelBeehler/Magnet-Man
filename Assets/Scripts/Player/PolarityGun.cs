@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PolarityGun : MonoBehaviour
 {   
-    ChargedObject selectedChargedObject;
+    ChargedBody selectedChargedObject;
     Rigidbody selectedRb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -45,7 +45,7 @@ public class PolarityGun : MonoBehaviour
             Debug.Log("Hit: " + hit.collider.name);
 
             // Does the hit object have a ChargedObject Component?
-            selectedChargedObject = hit.collider.GetComponent<ChargedObject>();
+            selectedChargedObject = hit.collider.GetComponent<ChargedBody>();
             if (selectedChargedObject)
             {
                 Debug.Log("This object is charged");
@@ -60,7 +60,7 @@ public class PolarityGun : MonoBehaviour
         
     }
 
-    void ApplyElectricForce (ChargedObject selectedChargedObject)
+    void ApplyElectricForce (ChargedBody selectedChargedObject)
     {
         // Compute direction from selected object towards player
         ComputeDirection(selectedChargedObject, out Vector3 heading, out float squareMagnitude);
@@ -83,7 +83,7 @@ public class PolarityGun : MonoBehaviour
         ApplyForce(dir, squareMagnitude, selectedChargedObject);
     }
 
-    void ComputeDirection (ChargedObject obj, out Vector3 heading, out float squareMagnitude)
+    void ComputeDirection (ChargedBody obj, out Vector3 heading, out float squareMagnitude)
     {
         Vector3 start = obj.transform.position;
         Vector3 target = transform.position;
@@ -92,7 +92,7 @@ public class PolarityGun : MonoBehaviour
         squareMagnitude = heading.sqrMagnitude;
     }
 
-    void ApplyForce (Vector3 normalizedDirection, float sqrmag, ChargedObject selectedChargedObject)
+    void ApplyForce (Vector3 normalizedDirection, float sqrmag, ChargedBody selectedChargedObject)
     {
         // Get chargedObject's rigidbody
         Rigidbody rigidbody = selectedChargedObject.rb;

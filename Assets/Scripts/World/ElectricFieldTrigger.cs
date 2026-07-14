@@ -8,7 +8,7 @@ public class ElectricFieldTrigger : MonoBehaviour
         if (other.transform.root.CompareTag("Player"))
         {
             FPSController playerController = other.transform.root.GetComponent<FPSController>();
-            playerController.activeField = GetComponentInParent<ChargedObject>();
+            playerController.activeField = GetComponentInParent<ElectricField>();
         }
     }
     private void OnTriggerStay (Collider other)

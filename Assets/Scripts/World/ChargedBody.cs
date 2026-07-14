@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ChargedObject : MonoBehaviour
+public class ChargedBody : MonoBehaviour
 {
    public Rigidbody rb;
 
