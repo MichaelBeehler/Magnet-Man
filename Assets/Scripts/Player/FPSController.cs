@@ -116,6 +116,18 @@ public class FPSController : MonoBehaviour
 
             electricVelocity += acceleration * Time.deltaTime;
         }
+
+        // We are not currently in an electric field trigger
+        else
+        {
+            // If we are grounded, add some friction to slow us down so we don't move forever
+            electricVelocity *= 0.999f;
+
+            if (electricVelocity.sqrMagnitude < 1.0f)
+            {
+                electricVelocity = Vector3.zero;
+            }
+        }
         
         controller.Move (move * speed * Time.deltaTime);
 
@@ -127,6 +139,5 @@ public class FPSController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move ((velocity + electricVelocity )  * Time.deltaTime);
-        //electricVelocity *= 0.98f;
     }
 }
