@@ -6,7 +6,7 @@ public class LevelEnd : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Level Complete!");
+            Debug.Log("Experiment Successful!");
         }
     }
 }
