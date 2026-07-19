@@ -7,7 +7,6 @@ public class FPSController : MonoBehaviour
     public Transform cameraHolder;
 
     [Header("Base Movement")]
-    public float speed = 5.0f;
     public float gravity = -9.81f;
     public float jumpHeight = 1.5f;
     public float playerMass = 50.0f;
@@ -161,5 +160,14 @@ public class FPSController : MonoBehaviour
         accelAmount = Mathf.Min(accelAmount, addSpeed);
         velocity += direction * accelAmount;
         
+    }
+    
+    void OnGUI()
+    {
+        GUI.skin.label.fontSize = 25;
+        GUI.Label(
+            new Rect(10,10,300,100),
+            "Velocity: " + velocity.magnitude.ToString("F2")
+        );
     }
 }

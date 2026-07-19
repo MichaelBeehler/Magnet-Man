@@ -547,6 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0657a8b7919aa0b4ab209db3a2e7c1f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelEnd
+  nextLevel: Chamber2
 --- !u!1 &1111195341
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,7 +675,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 257444629745150456, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000020481788
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 257444629745150456, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: m_LocalPosition.z
