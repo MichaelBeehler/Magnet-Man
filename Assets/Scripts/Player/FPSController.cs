@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class FPSController : MonoBehaviour
@@ -5,11 +6,17 @@ public class FPSController : MonoBehaviour
     [Header("References")]
     public Transform cameraHolder;
 
-    [Header("Movement")]
+    [Header("Base Movement")]
     public float speed = 5.0f;
     public float gravity = -9.81f;
     public float jumpHeight = 1.5f;
     public float playerMass = 50.0f;
+
+    [Header("Advanced Movement")]
+    public float maxSpeed = 6f;
+    public float acceleration = 15f;
+    public float friction = 8f;
+    public float airAcceleration = 2f;
 
     [Header("Look")]
     public float mouseSensitivity = 2.0f;
@@ -18,7 +25,7 @@ public class FPSController : MonoBehaviour
     private float xRotation;
 
     private Vector3 velocity;
-    private Vector3 electricVelocity;
+    //private Vector3 electricVelocity;
 
     public ElectricField activeField;
 
@@ -40,7 +47,6 @@ public class FPSController : MonoBehaviour
     {
         HandleLook();
         HandleMovement();
-        Debug.Log(activeField);
     }
 
     void HandleLook ()
@@ -64,16 +70,25 @@ public class FPSController : MonoBehaviour
         bool grounded = controller.isGrounded;
 
         // reset falling speed when on ground
-        if (grounded && velocity.y < 0)
+        if (grounded)
         {
-            velocity.y = -2f;
+            ApplyFriction();
+            if (velocity.y < 0)
+            {
+                velocity.y = -2f;
+            }
         }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        // move direction relative to direction player is facing
-        Vector3 move = transform.right * x + transform.forward * z;
+        // the direction the player wants to move
+        Vector3 wantDir = transform.right * x + transform.forward * z;
+        wantDir.Normalize();
+
+        float currAcceleration = grounded ? acceleration : airAcceleration;
+        Accelerate(wantDir, maxSpeed, currAcceleration);
+        
 
         // If the player is experiencing an electric force, find the vector
         if (activeField != null)
@@ -97,39 +112,8 @@ public class FPSController : MonoBehaviour
 
             Vector3 acceleration = PhysicsEquations.CalculateAcceleration(q * E, playerMass);
             Debug.Log("acc: " + acceleration);
-
-            // If object and player are not neutral, when we will be able to attract or repel
-            /*if (activeField.charge != ChargeType.Neutral && playerChargeComponent.playerCharge != ChargeType.Neutral)
-            {
-                if (activeField.charge != playerChargeComponent.playerCharge)
-                {
-                    electricVelocity += acceleration * Time.deltaTime;
-                    Debug.Log(electricVelocity);
-                }
-                else
-                {
-                    //move-= forceVector;
-                    electricVelocity -= acceleration * Time.deltaTime;
-                    Debug.Log(electricVelocity);
-                }
-            }*/
-
-            electricVelocity += acceleration * Time.deltaTime;
+            velocity += acceleration * Time.deltaTime;
         }
-
-        // We are not currently in an electric field trigger
-        else
-        {
-            // If we are grounded, add some friction to slow us down so we don't move forever
-            electricVelocity *= 0.999f;
-
-            if (electricVelocity.sqrMagnitude < 1.0f)
-            {
-                electricVelocity = Vector3.zero;
-            }
-        }
-        
-        controller.Move (move * speed * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && grounded)
         {
@@ -138,6 +122,44 @@ public class FPSController : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
 
-        controller.Move ((velocity + electricVelocity )  * Time.deltaTime);
+        controller.Move (velocity  * Time.deltaTime);
+    }
+
+    void ApplyFriction ()
+    {
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0, velocity.z);
+
+        float speed = horizontalVelocity.magnitude;
+
+        if (speed < 0.01f)
+        {
+            return;
+        }
+
+        float drop = speed * friction * Time.deltaTime;
+
+        float newSpeed = Mathf.Max(speed - drop, 0);
+
+        float ratio = newSpeed / speed;
+
+        velocity.x *= ratio;
+        velocity.z *= ratio;
+    }
+    
+    void Accelerate (Vector3 direction, float targetSpeed, float accel)
+    {
+        float currSpeed = Vector3.Dot(velocity, direction);
+        float addSpeed = targetSpeed - currSpeed;
+
+        if (addSpeed <= 0)
+        {
+            return;
+        }
+
+        float accelAmount = accel * Time.deltaTime * targetSpeed;
+
+        accelAmount = Mathf.Min(accelAmount, addSpeed);
+        velocity += direction * accelAmount;
+        
     }
 }
