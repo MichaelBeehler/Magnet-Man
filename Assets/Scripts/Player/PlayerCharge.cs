@@ -14,21 +14,21 @@ public class PlayerCharge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("1"))
+        if (Input.GetMouseButtonDown(0))
         {
             playerCharge = ChargeType.Positive;
             SetPlayerColor();
             Debug.Log("Player is now positive");
         }
 
-        else if (Input.GetKeyDown("2"))
+        else if (Input.GetMouseButtonDown(1))
         {
             playerCharge = ChargeType.Negative;
             SetPlayerColor();
             Debug.Log("Player is now negative");
         }
 
-        else if (Input.GetKeyDown("3"))
+        else if (Input.GetMouseButtonDown(2))
         {
             playerCharge = ChargeType.Neutral;
             SetPlayerColor();

@@ -110,7 +110,7 @@ public class FPSController : MonoBehaviour
             }
 
             Vector3 acceleration = PhysicsEquations.CalculateAcceleration(q * E, playerMass);
-            Debug.Log("acc: " + acceleration);
+            //Debug.Log("acc: " + acceleration);
             velocity += acceleration * Time.deltaTime;
         }
 
