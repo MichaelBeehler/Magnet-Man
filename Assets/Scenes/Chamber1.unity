@@ -472,6 +472,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargedSurface (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 2812129127084878405, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: fieldStrength
       value: 1000
@@ -868,6 +888,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChargedSurface (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 2812129127084878405, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: fieldStrength
       value: 1000
@@ -950,8 +990,24 @@ PrefabInstance:
       value: ChargedSurface
       objectReference: {fileID: 0}
     - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735906830412763076, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2812129127084878405, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: charge
