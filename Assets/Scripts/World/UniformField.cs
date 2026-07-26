@@ -8,6 +8,7 @@ public class UniformField : ElectricField
     public void Start()
     {
         fieldDirection = transform.up;
+        UpdateColor();
     } 
 
     public override Vector3 GetElectricField(Vector3 position)
