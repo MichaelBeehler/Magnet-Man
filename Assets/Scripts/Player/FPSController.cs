@@ -20,6 +20,10 @@ public class FPSController : MonoBehaviour
     [Header("Look")]
     public float mouseSensitivity = 2.0f;
 
+    [Header("Sprinting")]
+    public float sprintMultiplier = 1.5f;
+    public KeyCode sprintKey = KeyCode.LeftShift;
+
     private CharacterController controller;
     private float xRotation;
 
@@ -85,8 +89,12 @@ public class FPSController : MonoBehaviour
         Vector3 wantDir = transform.right * x + transform.forward * z;
         wantDir.Normalize();
 
+        bool sprinting = Input.GetKey(sprintKey) && z > 0.1f;
+
+        float targetSpeed = sprinting ? maxSpeed * sprintMultiplier : maxSpeed;
         float currAcceleration = grounded ? acceleration : airAcceleration;
-        Accelerate(wantDir, maxSpeed, currAcceleration);
+
+        Accelerate(wantDir, targetSpeed, currAcceleration);
         
 
         // If the player is experiencing an electric force, find the vector
