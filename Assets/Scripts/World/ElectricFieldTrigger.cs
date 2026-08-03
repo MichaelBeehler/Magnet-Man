@@ -8,7 +8,12 @@ public class ElectricFieldTrigger : MonoBehaviour
         if (other.transform.root.CompareTag("Player"))
         {
             FPSController playerController = other.transform.root.GetComponent<FPSController>();
-            playerController.activeField = GetComponentInParent<ElectricField>();
+            ElectricField field = GetComponentInParent<ElectricField>();
+
+            if (!playerController.activeFields.Contains(field))
+            {
+                playerController.activeFields.Add(field);
+            }
         }
     }
     private void OnTriggerStay (Collider other)
@@ -25,7 +30,8 @@ public class ElectricFieldTrigger : MonoBehaviour
         {
             Debug.Log("Left Zone");
             FPSController playerController = other.transform.root.GetComponent<FPSController>();
-            playerController.activeField = null;
+            ElectricField field = GetComponentInParent<ElectricField>();
+            playerController.activeFields.Remove(field);
         }
     }
 }

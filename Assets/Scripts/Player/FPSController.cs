@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class FPSController : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class FPSController : MonoBehaviour
     private Vector3 velocity;
     //private Vector3 electricVelocity;
 
-    public ElectricField activeField;
+    public List<ElectricField> activeFields = new List<ElectricField>();
 
     PlayerCharge playerChargeComponent;
 
@@ -98,7 +99,33 @@ public class FPSController : MonoBehaviour
         
 
         // If the player is experiencing an electric force, find the vector
-        if (activeField != null)
+        Vector3 netField = Vector3.zero;
+
+        foreach (ElectricField field in activeFields)
+        {
+            netField += field.GetElectricField(transform.position);
+        }
+
+        float q = 0;
+
+        switch (playerChargeComponent.playerCharge)
+        {
+            case ChargeType.Positive:
+                q = 1;
+                break;
+            
+            case ChargeType.Negative:
+                q = -1;
+                break;
+            
+            case ChargeType.Neutral:
+            q = 0;
+            break;
+        }
+
+        Vector3 acc = PhysicsEquations.CalculateAcceleration(q*netField, playerMass);
+        velocity += acc * Time.deltaTime;
+        /*if (activeField != null)
         {
             Vector3 E = activeField.GetElectricField(transform.position);
             float q = 0;
@@ -120,7 +147,7 @@ public class FPSController : MonoBehaviour
             Vector3 acceleration = PhysicsEquations.CalculateAcceleration(q * E, playerMass);
             //Debug.Log("acc: " + acceleration);
             velocity += acceleration * Time.deltaTime;
-        }
+        }*/
 
         if (Input.GetButtonDown("Jump") && grounded)
         {
