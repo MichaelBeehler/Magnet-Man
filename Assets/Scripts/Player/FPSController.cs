@@ -32,6 +32,7 @@ public class FPSController : MonoBehaviour
     //private Vector3 electricVelocity;
 
     public List<ElectricField> activeFields = new List<ElectricField>();
+    public List<MagneticField> activeMagneticFields = new List<MagneticField>();
 
     PlayerCharge playerChargeComponent;
 
@@ -82,81 +83,30 @@ public class FPSController : MonoBehaviour
                 velocity.y = -2f;
             }
         }
+        ApplyMovementInput(grounded);
+        ApplyElectricFields();
+        ApplyMagneticFields();
+        ApplyJump(grounded);
+        ApplyGravity();
+        MoveCharacter();
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+    }
+    
+    void Accelerate (Vector3 direction, float targetSpeed, float accel)
+    {
+        float currSpeed = Vector3.Dot(velocity, direction);
+        float addSpeed = targetSpeed - currSpeed;
 
-        // the direction the player wants to move
-        Vector3 wantDir = transform.right * x + transform.forward * z;
-        wantDir.Normalize();
+        if (addSpeed <= 0)
+        {
+            return;
+        }
 
-        bool sprinting = Input.GetKey(sprintKey) && z > 0.1f;
+        float accelAmount = accel * Time.deltaTime * targetSpeed;
 
-        float targetSpeed = sprinting ? maxSpeed * sprintMultiplier : maxSpeed;
-        float currAcceleration = grounded ? acceleration : airAcceleration;
-
-        Accelerate(wantDir, targetSpeed, currAcceleration);
+        accelAmount = Mathf.Min(accelAmount, addSpeed);
+        velocity += direction * accelAmount;
         
-
-        // If the player is experiencing an electric force, find the vector
-        Vector3 netField = Vector3.zero;
-
-        foreach (ElectricField field in activeFields)
-        {
-            netField += field.GetElectricField(transform.position);
-        }
-
-        float q = 0;
-
-        switch (playerChargeComponent.playerCharge)
-        {
-            case ChargeType.Positive:
-                q = 1;
-                break;
-            
-            case ChargeType.Negative:
-                q = -1;
-                break;
-            
-            case ChargeType.Neutral:
-            q = 0;
-            break;
-        }
-
-        Vector3 acc = PhysicsEquations.CalculateAcceleration(q*netField, playerMass);
-        velocity += acc * Time.deltaTime;
-        /*if (activeField != null)
-        {
-            Vector3 E = activeField.GetElectricField(transform.position);
-            float q = 0;
-
-            switch(playerChargeComponent.playerCharge)
-            {
-                case ChargeType.Positive:
-                    q = 1;
-                    break;
-                
-                case ChargeType.Negative:
-                    q = -1;
-                    break;
-
-                default:
-                    break;
-            }
-
-            Vector3 acceleration = PhysicsEquations.CalculateAcceleration(q * E, playerMass);
-            //Debug.Log("acc: " + acceleration);
-            velocity += acceleration * Time.deltaTime;
-        }*/
-
-        if (Input.GetButtonDown("Jump") && grounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        velocity.y += gravity * Time.deltaTime;
-
-        controller.Move (velocity  * Time.deltaTime);
     }
 
     void ApplyFriction ()
@@ -179,22 +129,77 @@ public class FPSController : MonoBehaviour
         velocity.x *= ratio;
         velocity.z *= ratio;
     }
-    
-    void Accelerate (Vector3 direction, float targetSpeed, float accel)
-    {
-        float currSpeed = Vector3.Dot(velocity, direction);
-        float addSpeed = targetSpeed - currSpeed;
 
-        if (addSpeed <= 0)
+    void ApplyElectricFields()
+    {
+        Vector3 netField = Vector3.zero;
+
+        foreach (ElectricField field in activeFields)
         {
-            return;
+            netField += field.GetElectricField(transform.position);
         }
 
-        float accelAmount = accel * Time.deltaTime * targetSpeed;
+        float q = 0;
 
-        accelAmount = Mathf.Min(accelAmount, addSpeed);
-        velocity += direction * accelAmount;
+        switch (playerChargeComponent.playerCharge)
+        {
+            case ChargeType.Positive:
+                q = 1;
+                break;
+            
+            case ChargeType.Negative:
+                q = -1;
+                break;
+
+            // No need to continue, not affected by fields
+            case ChargeType.Neutral:
+                return;
+        }
+
+        Vector3 acceleration = PhysicsEquations.CalculateAcceleration(q * netField, playerMass);
+
+        velocity += acceleration * Time.deltaTime;
+    }
+
+    void ApplyMagneticFields ()
+    {
         
+    }
+
+    void ApplyGravity()
+    {
+        velocity.y += gravity * Time.deltaTime;
+    }
+
+    void ApplyJump(bool grounded)
+    {
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+    }
+
+    void ApplyMovementInput (bool grounded)
+    {
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 wishDir = transform.right * x + transform.forward * z;
+
+        wishDir.Normalize();
+
+        bool sprinting = Input.GetKey(sprintKey) && z > 0.1f;
+
+        float targetSpeed = sprinting ? maxSpeed * sprintMultiplier : maxSpeed;
+
+        float accel = grounded ? acceleration : airAcceleration;
+
+        Accelerate(wishDir, targetSpeed, accel);
+    }
+
+    void MoveCharacter ()
+    {
+        controller.Move(velocity * Time.deltaTime);
     }
     
     void OnGUI()
