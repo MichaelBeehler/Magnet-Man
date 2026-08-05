@@ -163,7 +163,35 @@ public class FPSController : MonoBehaviour
 
     void ApplyMagneticFields ()
     {
-        
+        Vector3 netfield = Vector3.zero;
+
+        foreach (MagneticField field in activeMagneticFields)
+        {
+            netfield += field.GetMagneticField(transform.position);
+        }
+
+        float q = 0;
+
+        switch (playerChargeComponent.playerCharge)
+        {
+            case ChargeType.Positive:
+                q = 1;
+                break;
+
+            case ChargeType.Negative:
+                q = -1;
+                break;
+
+            default:
+            return;
+        }
+
+        // F = q( v x B )
+        Vector3 magneticForce = q * Vector3.Cross(velocity, netfield);
+
+        Vector3 magneticAcceleration = PhysicsEquations.CalculateAcceleration(magneticForce, playerMass);
+
+        velocity += magneticAcceleration * Time.deltaTime;
     }
 
     void ApplyGravity()
