@@ -29,7 +29,6 @@ public class FPSController : MonoBehaviour
     private float xRotation;
 
     private Vector3 velocity;
-    //private Vector3 electricVelocity;
 
     public List<ElectricField> activeFields = new List<ElectricField>();
     public List<MagneticField> activeMagneticFields = new List<MagneticField>();
@@ -78,7 +77,7 @@ public class FPSController : MonoBehaviour
         if (grounded)
         {
             ApplyFriction();
-            if (velocity.y < 0)
+            if (velocity.y < -2f)
             {
                 velocity.y = -2f;
             }
@@ -186,8 +185,10 @@ public class FPSController : MonoBehaviour
             return;
         }
 
+        Vector3 horizVelocity = new Vector3(velocity.x, 0, velocity.z);
+
         // F = q( v x B )
-        Vector3 magneticForce = q * Vector3.Cross(velocity, netfield);
+        Vector3 magneticForce = q * Vector3.Cross(horizVelocity, netfield);
 
         Vector3 magneticAcceleration = PhysicsEquations.CalculateAcceleration(magneticForce, playerMass);
 
@@ -227,7 +228,16 @@ public class FPSController : MonoBehaviour
 
     void MoveCharacter ()
     {
-        controller.Move(velocity * Time.deltaTime);
+        CollisionFlags flags = controller.Move(velocity * Time.deltaTime);
+
+        Debug.Log(flags);
+
+        if ((flags & CollisionFlags.Above) != 0)
+        {
+            Debug.Log("Hit ceiling!");
+            velocity.y = -2.0f;
+            //velocity = Vector3.zero;
+        }
     }
     
     void OnGUI()
