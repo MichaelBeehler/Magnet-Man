@@ -4753,75 +4753,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &741586005
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.4239402
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 13.71
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 90.75673
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3124602905019986140, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4843595201928612599, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_Size.y
-      value: 79.99999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4843595201928612599, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_Center.x
-      value: 3.5527166e-16
-      objectReference: {fileID: 0}
-    - target: {fileID: 4843595201928612599, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_Center.y
-      value: -9.999999
-      objectReference: {fileID: 0}
-    - target: {fileID: 5500751278028721817, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
-      propertyPath: m_Name
-      value: MagneticPlate
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ca4a45165655a2c4fac5a82f51e9aa5a, type: 3}
 --- !u!1 &770175831
 GameObject:
   m_ObjectHideFlags: 0
@@ -8115,6 +8046,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PointCharge
   charge: 1
+  rb: {fileID: 0}
   activeElectricFields: []
   activeMagneticFields: []
 --- !u!54 &1181803683
@@ -14558,7 +14490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 257444629745150456, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 89.90842
+      value: 107.91842
       objectReference: {fileID: 0}
     - target: {fileID: 257444629745150456, guid: 3282e6d032c6a0a4fa86f79d7ca297a1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -16826,4 +16758,3 @@ SceneRoots:
   - {fileID: 1181803681}
   - {fileID: 1105875734}
   - {fileID: 1691771985}
-  - {fileID: 741586005}

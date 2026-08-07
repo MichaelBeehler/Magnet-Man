@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 public class PointCharge : MonoBehaviour
 {
-    public ChargeType charge;
+    public ChargeType charge = ChargeType.Neutral;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     public List<ElectricField> activeElectricFields = new List<ElectricField>();
 
@@ -64,5 +64,38 @@ public class PointCharge : MonoBehaviour
         Vector3 magneticForce = q * Vector3.Cross(rb.linearVelocity, netField);
 
         rb.AddForce(magneticForce);
+    }
+
+    public void ApplyForceFromPointCharge(Vector3 sourcePosition, ChargeType sourceCharge, float sourceChargeMagnitude)
+    {
+        if (charge == ChargeType.Neutral || sourceCharge == ChargeType.Neutral)
+        {
+            return;
+        }
+
+        Vector3 direction = transform.position - sourcePosition;
+        float distSquared = direction.sqrMagnitude;
+
+        // Don't allow extreme forces (which occurs when player gets too close)
+        if (distSquared < 0.01f)
+        {
+            return;
+        }
+
+        direction.Normalize();
+
+        float forceMagnitude = PhysicsEquations.CalculatePointChargeForceSqDist(sourceChargeMagnitude, 1f, distSquared);
+
+        // Like charges repel each other
+        if (charge == sourceCharge)
+        {
+            rb.AddForce(direction * forceMagnitude);
+        }
+
+        // Opposites attract
+        else
+        {
+            rb.AddForce(-direction * forceMagnitude);
+        }
     }
 }

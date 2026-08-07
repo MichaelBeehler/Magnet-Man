@@ -1,121 +1,62 @@
+using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PolarityGun : MonoBehaviour
 {   
-    ChargedBody selectedChargedObject;
-    Rigidbody selectedRb;
+    private PointCharge selectedPointCharge;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private PlayerCharge playerCharge;
+
     void Start()
     {
-        Rigidbody playerRb = GetComponent<Rigidbody>();
+        playerCharge = GetComponentInParent<PlayerCharge>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // If left mouse is clicked
         if (Input.GetMouseButtonDown(0))
         {
-            ProcessMouse();
+            SelectObject();
         }
 
-        // Right Mouse Click
-        else if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            // De-Select Charged Object
-            selectedChargedObject = null;
-            selectedRb = null;
+            DeselectObject();
         }
 
-        if (selectedChargedObject != null)
+        if (selectedPointCharge != null)
         {
-            ApplyElectricForce(selectedChargedObject);
-        }     
+            ApplyElectricInteraction();
+        }
     }
 
-    void ProcessMouse ()
+    void SelectObject()
     {
-        // Create a RaycastHit object, which will contain info on clicked objects
         RaycastHit hit;
 
-        // If something was hit, print its name in the console
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 100f))
-        {
-            Debug.Log("Hit: " + hit.collider.name);
-
-            // Does the hit object have a ChargedObject Component?
-            selectedChargedObject = hit.collider.GetComponent<ChargedBody>();
-            if (selectedChargedObject)
-            {
-                Debug.Log("This object is charged");
-                selectedRb = selectedChargedObject.GetComponent<Rigidbody>();
-            }
-        }
-    }
-
-    // If the player left clicks a charged object, select it, pulling towards camera
-    void SelectObject ()
-    {
-        
-    }
-
-    void ApplyElectricForce (ChargedBody selectedChargedObject)
-    {
-        // Compute direction from selected object towards player
-        ComputeDirection(selectedChargedObject, out Vector3 heading, out float squareMagnitude);
-
-        // If within certain range, don't apply force
-        if (squareMagnitude < 4)
+        if (!Physics.Raycast(transform.position, transform.forward, out hit, 100f))
         {
             return;
         }
-        // Normalize the vector
-        Vector3 dir = heading.normalized;
-        
-        //Debug.Log("Velocity: " + selectedChargedObject.GetComponent<Rigidbody>().linearVelocity.magnitude);
 
-        // Add force to the hit object
-        /*Rigidbody rigidbody = selectedChargedObject.rb;
-        float electricForceMagnitude = ElectricForceCalculator.CalculatePointChargeForceSqDist(1, 1, squareMagnitude);
-        rigidbody.AddForce(5 * dir * electricForceMagnitude);
-        //selectedObject.attachedRigidbody.AddForce(dir * 500);*/
-        ApplyForce(dir, squareMagnitude, selectedChargedObject);
-    }
-
-    void ComputeDirection (ChargedBody obj, out Vector3 heading, out float squareMagnitude)
-    {
-        Vector3 start = obj.transform.position;
-        Vector3 target = transform.position;
-
-        heading = target - start;
-        squareMagnitude = heading.sqrMagnitude;
-    }
-
-    void ApplyForce (Vector3 normalizedDirection, float sqrmag, ChargedBody selectedChargedObject)
-    {
-        // Get chargedObject's rigidbody
-        Rigidbody rigidbody = selectedChargedObject.rb;
-
-        float electricForceMagnitude = PhysicsEquations.CalculatePointChargeForceSqDist(10, 10, sqrmag);
-
-        Debug.Log(selectedChargedObject);
-        Debug.Log(selectedChargedObject.rb);
-
-        PlayerCharge pc = GetComponentInParent<PlayerCharge>();
-        Debug.Log(pc);
-
-        // If object and player are not neutral, when we will be able to attract or repel
-        if (selectedChargedObject.charge != ChargeType.Neutral && GetComponentInParent<PlayerCharge>().playerCharge != ChargeType.Neutral)
+        PointCharge pointCharge = hit.collider.GetComponentInParent<PointCharge>();
+        if (pointCharge == null)
         {
-            if (selectedChargedObject.charge != GetComponentInParent<PlayerCharge>().playerCharge)
-            {
-                rigidbody.AddForce(5 * normalizedDirection * electricForceMagnitude);
-            }
-            else
-            {
-                rigidbody.AddForce(5 * normalizedDirection * -electricForceMagnitude);
-            }
+            return;
         }
+
+        selectedPointCharge = pointCharge;
+        Debug.Log("Selected: " + pointCharge.name);
+    }
+
+    void DeselectObject()
+    {
+        selectedPointCharge = null;
+    }
+
+    void ApplyElectricInteraction()
+    {
+        selectedPointCharge.ApplyForceFromPointCharge(transform.root.position, playerCharge.playerCharge, 10f);
     }
 }
