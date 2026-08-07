@@ -52,7 +52,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 10, z: 1}
+  m_Size: {x: 1, y: 60, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4249623490383760463
 MonoBehaviour:
@@ -95,7 +95,7 @@ Transform:
   m_GameObject: {fileID: 5500751278028721817}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.09000003, z: 6.5345}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 0.1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -192,4 +192,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7c1b8ed6ed4c1468b7ace45bfd0770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniformMagneticField
-  fieldStrength: 10
+  fieldStrength: 1
