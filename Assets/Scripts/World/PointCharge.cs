@@ -14,6 +14,7 @@ public class PointCharge : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        UpdateColor();
     }
 
     void FixedUpdate()
@@ -96,6 +97,26 @@ public class PointCharge : MonoBehaviour
         else
         {
             rb.AddForce(-direction * forceMagnitude);
+        }
+    }
+
+        void UpdateColor ()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+
+        if (charge == ChargeType.Neutral)
+        {
+            renderer.material.color = Color.gold;
+        }
+
+        else if (charge == ChargeType.Positive)
+        {
+            renderer.material.color = Color.red;
+        }
+
+        else
+        {
+            renderer.material.color = Color.blue;
         }
     }
 }
