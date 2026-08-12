@@ -22,7 +22,7 @@ public class FPSController : MonoBehaviour
     public float mouseSensitivity = 2.0f;
 
     [Header("Sprinting")]
-    public float sprintMultiplier = 1.5f;
+    public float sprintMultiplier = 3.0f;
     public KeyCode sprintKey = KeyCode.LeftShift;
 
     private CharacterController controller;
@@ -71,6 +71,12 @@ public class FPSController : MonoBehaviour
 
     void HandleMovement ()
     {
+
+        if (transform.position.y < -20f)
+        {
+            ResetCharacter();
+            return;
+        }
         bool grounded = controller.isGrounded;
 
         // reset falling speed when on ground
@@ -238,6 +244,11 @@ public class FPSController : MonoBehaviour
             velocity.y = -2.0f;
             //velocity = Vector3.zero;
         }
+    }
+
+    void ResetCharacter ()
+    {
+        transform.position = new Vector3(0f, 2f, 0f);
     }
     
     void OnGUI()
