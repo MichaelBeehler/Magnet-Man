@@ -22,15 +22,12 @@ EditorBuildSettings:
     guid: a376cf502b2c62c48bea6397757754c1
   - enabled: 1
     path: Assets/Scenes/Chamber5.unity
-    guid: f0b6b340ba1a4604fbfafd303030e58d
-  - enabled: 1
-    path: Assets/Scenes/Chamber6.unity
     guid: 49ee99fafafacd7419d4a1de8a9f64ca
   - enabled: 1
-    path: Assets/Scenes/Chamber7.unity
+    path: Assets/Scenes/Chamber6.unity
     guid: d86bd132f48069d4489e1b35a671aada
   - enabled: 1
-    path: Assets/Scenes/Chamber8.unity
+    path: Assets/Scenes/Chamber7.unity
     guid: debd508b790792d4b88c8e5d3a0e14af
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
