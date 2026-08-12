@@ -11,16 +11,26 @@ public class PointCharge : MonoBehaviour
 
     public List<MagneticField> activeMagneticFields = new List<MagneticField>();
 
+    Vector3 startPos;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         UpdateColor();
+        startPos = transform.position;
     }
 
     void FixedUpdate()
     {
         ApplyElectricFields();
         ApplyMagneticFields();
+
+        if (transform.position.y < -20f)
+        {
+            transform.position = new Vector3(startPos.x, startPos.y, startPos.z);
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
     }
 
     void ApplyElectricFields()
