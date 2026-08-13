@@ -13,6 +13,13 @@ public class MagneticFieldTrigger : MonoBehaviour
         {
             FPSController playerController = other.transform.root.GetComponent<FPSController>();
 
+            UniformMagneticField uniformField = field as UniformMagneticField;
+            if (uniformField != null && uniformField.applyAsImpulse)
+            {
+                playerController.ApplyMagneticImpulse(field);
+                return;
+            }
+
             if (!playerController.activeMagneticFields.Contains(field))
             {
                 playerController.activeMagneticFields.Add(field);

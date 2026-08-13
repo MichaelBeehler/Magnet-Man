@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class FPSController : MonoBehaviour
 {
@@ -29,6 +31,8 @@ public class FPSController : MonoBehaviour
     private float xRotation;
 
     private Vector3 velocity;
+
+    private bool launchedByMagnet;
 
     public List<ElectricField> activeFields = new List<ElectricField>();
     public List<MagneticField> activeMagneticFields = new List<MagneticField>();
@@ -80,7 +84,7 @@ public class FPSController : MonoBehaviour
         bool grounded = controller.isGrounded;
 
         // reset falling speed when on ground
-        if (grounded)
+        if (grounded && !launchedByMagnet)
         {
             ApplyFriction();
             if (velocity.y < -2f)
@@ -94,6 +98,7 @@ public class FPSController : MonoBehaviour
         ApplyJump(grounded);
         ApplyGravity();
         MoveCharacter();
+        launchedByMagnet = false;
 
     }
     
@@ -249,6 +254,41 @@ public class FPSController : MonoBehaviour
     void ResetCharacter ()
     {
         transform.position = new Vector3(0f, 2f, 0f);
+    }
+
+    public void ApplyMagneticImpulse(MagneticField field)
+    {
+        float q = 0f;
+
+        switch (playerChargeComponent.playerCharge)
+        {
+            case ChargeType.Positive:
+                q = 1f;
+                break;
+
+            case ChargeType.Negative:
+                q = -1f;
+                break;
+
+            case ChargeType.Neutral:
+                return;
+        }
+
+        Vector3 B = field.GetMagneticField(transform.position);
+
+        // Magnetic Force: F = q(v x B)
+        Vector3 magneticForce = q * Vector3.Cross(velocity, B);
+
+        // Only direction matters right now
+        if (magneticForce.sqrMagnitude < 0.001f)
+        {
+            return;
+        }
+
+        Vector3 launchDirection = magneticForce.normalized;
+
+        velocity += launchDirection * field.fieldStrength;
+        launchedByMagnet = true;
     }
     
     void OnGUI()
