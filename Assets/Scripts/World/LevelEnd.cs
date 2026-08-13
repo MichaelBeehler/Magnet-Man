@@ -6,13 +6,24 @@ public class LevelEnd : MonoBehaviour
 {
     public string nextLevel;
     public float delay = 1.5f;
+
+    public bool requiresBallTouch;
     private bool levelCompleted = false;
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.CompareTag("Player") || other.transform.root.GetComponent<PointCharge>() != null ) && !levelCompleted)
+        if (!levelCompleted)
         {
-            levelCompleted = true;
-            StartCoroutine(LoadNextLevel());
+            if (!requiresBallTouch && other.CompareTag("Player"))
+            {
+                levelCompleted = true;
+                StartCoroutine(LoadNextLevel());
+            }
+            
+            else if (requiresBallTouch && other.transform.root.GetComponent<PointCharge>()!= null)
+            {
+                levelCompleted = true;
+                StartCoroutine(LoadNextLevel());
+            }
         }
     }
 

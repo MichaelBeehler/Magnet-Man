@@ -30585,6 +30585,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7608575778303127304, guid: f39b70fbdc0e5b44fa7f41c7e0cd4568, type: 3}
+      propertyPath: nextLevel
+      value: Chamber6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608575778303127304, guid: f39b70fbdc0e5b44fa7f41c7e0cd4568, type: 3}
+      propertyPath: requiresBallTouch
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
