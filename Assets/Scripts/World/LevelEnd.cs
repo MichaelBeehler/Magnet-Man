@@ -9,7 +9,7 @@ public class LevelEnd : MonoBehaviour
     private bool levelCompleted = false;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !levelCompleted)
+        if ((other.CompareTag("Player") || other.transform.root.GetComponent<PointCharge>() != null ) && !levelCompleted)
         {
             levelCompleted = true;
             StartCoroutine(LoadNextLevel());
