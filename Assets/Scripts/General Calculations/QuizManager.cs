@@ -2,11 +2,12 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using System.Data.Common;
 
 public class QuizManager : MonoBehaviour
 {
-
+    public static QuizManager Instance;
     [Header("Questions")]
     public List<QuizQuestion> questions = new List<QuizQuestion>();
 
@@ -24,16 +25,36 @@ public class QuizManager : MonoBehaviour
     private int currentQuestionIndex;
     private bool answered;
 
+    private QuizType currentQuizType;
+    private QuizDestination destination;
+    private int currentLevel;
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    } 
+
     void Start()
     {
         quizPanel.SetActive(false);
         nextButton.onClick.AddListener(NextQuestion);
     }
 
-    public void StartQuiz()
+    public void StartQuiz(QuizType quizType, QuizDestination destination)
     {
+        currentQuizType = quizType;
+        this.destination = destination;
 
-        mainMenuPanel.SetActive(false);
+        if (mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(false);
+        }
+
         currentQuestionIndex = 0;
         quizPanel.SetActive(true);
 
@@ -41,6 +62,22 @@ public class QuizManager : MonoBehaviour
         Cursor.visible = true;
 
         ShowQuestion();
+    }
+
+    public void StartPreLevelQuiz(int level)
+    {
+        currentLevel = level;
+
+        StartQuiz(
+            QuizType.Prelevel,
+            QuizDestination.Level
+        );
+    }
+
+    public void StartPostLevelQuiz(int level)
+    {
+        currentLevel = level;
+        StartQuiz(QuizType.Postlevel, QuizDestination.Level);
     }
 
     void ShowQuestion()
@@ -110,14 +147,29 @@ public class QuizManager : MonoBehaviour
         ShowQuestion();
     }
 
+    public void LoadNextLevel ()
+    {
+        int nextLevel = currentLevel + 1;
+
+        SceneManager.LoadScene("Chamber" + nextLevel);
+    }
+
     void EndQuiz()
     {
         quizPanel.SetActive(false);
-        mainMenuPanel.SetActive(true);
 
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         Debug.Log("Quiz Complete!");
+
+        if (currentQuizType == QuizType.Prelevel)
+        {
+            SceneManager.LoadScene("Chamber" + currentLevel); //Loads Level 1 for now
+        }
+        else if (currentQuizType == QuizType.Postlevel)
+        {
+            LoadNextLevel();
+        }
     }
 }

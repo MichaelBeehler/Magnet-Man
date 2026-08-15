@@ -9,6 +9,7 @@ public class LevelEnd : MonoBehaviour
 
     public bool requiresBallTouch;
     private bool levelCompleted = false;
+    public int levelNumber = 1;
     private void OnTriggerEnter(Collider other)
     {
         if (!levelCompleted)
@@ -16,23 +17,14 @@ public class LevelEnd : MonoBehaviour
             if (!requiresBallTouch && other.CompareTag("Player"))
             {
                 levelCompleted = true;
-                StartCoroutine(LoadNextLevel());
+                QuizManager.Instance.StartPostLevelQuiz(levelNumber);
             }
             
             else if (requiresBallTouch && other.transform.root.GetComponent<PointCharge>()!= null)
             {
                 levelCompleted = true;
-                StartCoroutine(LoadNextLevel());
+                QuizManager.Instance.StartPostLevelQuiz(levelNumber);
             }
         }
-    }
-
-    IEnumerator LoadNextLevel()
-    {
-        // we need to add cool stuff that should occur when a level is completed
-
-        yield return new WaitForSeconds(delay);
-
-        SceneManager.LoadScene(nextLevel);
     }
 }
