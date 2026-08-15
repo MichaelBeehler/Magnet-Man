@@ -291,12 +291,12 @@ public class FPSController : MonoBehaviour
         launchedByMagnet = true;
     }
     
-    void OnGUI()
+    /*void OnGUI()
     {
         GUI.skin.label.fontSize = 25;
         GUI.Label(
-            new Rect(10,10,300,100),
+            new Rect(1000,30,300,100),
             "Velocity: " + velocity.magnitude.ToString("F2")
         );
-    }
+    }*/
 }
