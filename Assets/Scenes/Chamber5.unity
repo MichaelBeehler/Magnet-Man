@@ -31848,6 +31848,10 @@ PrefabInstance:
       value: Chamber6
       objectReference: {fileID: 0}
     - target: {fileID: 7608575778303127304, guid: f39b70fbdc0e5b44fa7f41c7e0cd4568, type: 3}
+      propertyPath: levelNumber
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608575778303127304, guid: f39b70fbdc0e5b44fa7f41c7e0cd4568, type: 3}
       propertyPath: requiresBallTouch
       value: 1
       objectReference: {fileID: 0}
